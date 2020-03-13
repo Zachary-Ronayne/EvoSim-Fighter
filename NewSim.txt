@@ -1,0 +1,51 @@
+Simulation Settings
+
+Min_Nodes: 1
+Max_Nodes: 100
+Min_Start_Nodes: 1
+Max_Start_Nodes: 30
+Mutability_Change: 0.7
+Node_Mutability_Change: 5.0
+Min_Mutability: 0.0
+Max_Mutability: 0.75
+Min_Node_Mutability: 0.0
+Max_Node_Mutability: 10.0
+
+Fight_Arena_Width: 500
+Fight_Arena_Height: 300
+Fighter_Width: 50
+Fighter_Height: 70
+Fighter_Move_Speed: 3.0
+Fighter_Jump_Speed: -6.0
+Fighter_Gravity: 0.1
+
+Max_Fight_Time: 2000
+Use_Torus: 1
+
+Test_Type: 2
+AI_Type: 0
+Draw_Best_Lines: 0
+Draw_Average_Lines: 1
+Poly_Graph: 1
+Draw_Seperation_Lines: 0
+Always_Update_Graphs: 0
+Test_On_Average: 1
+Kill_Parent: 0
+
+Hit_Landed_Fitness: 5.0
+Hit_Blocked_Fitness: 6.0
+Attack_Blocked_Fitness: -2.0
+Attacked_Fitness: -9.0
+Block_Ended_Fitness: -1.0
+Attack_Ended_Fitness: -1.0
+Normal_Attack_Time: 100
+Long_Attack_Time: 200
+Begin_Attack_Time: 30
+Neutral_Attack_Time: 31
+Normal_Block_Time: 200
+Long_Block_Time: 255
+Blocking_Time: 75
+Neutral_Block_Time: 76
+
+Seed: 164419031
+

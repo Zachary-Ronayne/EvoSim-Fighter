@@ -1,0 +1,205 @@
+How fighting works:
+	Hold down left to move left
+	Hold down right to move right
+	When changing directions or going from not movie to moving, speed must be built up until at max speed.
+	Hold down both left and right, or neither button to remain still
+	Hold down jump to jump, so long that you are not blocking and are touching the ground, you will jump. While moving upwards, you move faster than normal
+	Hold down attack to attack, so long that attack is off cool down, you will attack. Attacking prevents blocking until the attack is finished.
+		When you begin an attack, a certain amount of time will pass, and then after that time, if you are touching the enmy fighter you willl hit them.
+	Hold down block to block, so long that block is off cool down and still held down, you will continue to block. If you are attacked while
+		you are blocking, your block and attack will go on their normal cool down, however your opponents block and attack will go on a different,
+		longer by default, cool down than normal. Attacking automatically stops blocking. Blocking causes you to move slower than normal.
+	By default, landing a hit adds fitness, getting hit subtracts fitness, blocking a hit adds fitness, getting an attack blocked subtracts fitness,
+		missing an attack subtracts fitness, and ending a block without blocking anything subtracts fitness.
+	The amount that each action effects fitness by can be modified. Use a positive number to add fitness, a negative number to subtract fitness, or 0 to do nothing.
+	For actions that occur when you are not touching the enemy fighter the further you are from the fighter, the more fitness is effected.
+		For actions that occur when you are touching the enemy fighter, the closer you are to the fighter, the more fitness is effected.
+	Each fight lasts Max_Fight_Time hundredths of a second (default 2000, which is 20 seconds). After that time is up, a final fitness score is recorded for both fighters.
+	When viewing a fight, the fight will last for as long as you continue to view it, but simulated fights last exactly Max_Fight_Time
+
+
+
+Values from the neural net brains:
+
+Each number displayed ranges from -1 to 1, but is multiplied by 1000 and casted to an integer.
+A blue color represents a positive number, the more intense the blue, the closer to 1 the number is
+A red color represents a negative number, the more intense the red, the closer to -1 the number is
+If a color is very close to white, it is very close to 0
+
+The first, leftmost layer, is the input layer, each node has a label, each of which are described here.
+	X - the difference between both fighters X coordinates
+	Y - the difference between both fighters y coordinates
+	DX1 - the current X velocity of themselves
+	DY1 - the current Y velocity of themselves
+	DX2 - the current X velocity of the opponent fighter
+	DY2 - the current Y velocity of the opponent fighter
+	A1 - the current number that represents the attack time of themselves
+	B1 - the current number that represents the block time of themselves
+	A2 - the current number that represents the attack time of the opponent fighter
+	B2 - the current number that represents the block time of the opponent fighter
+	M - the value read in from the output node labeled M, used to store information
+	C - constant node, this node is always shown as 1000, and never changes.
+		The bottom most node in the hidden, middle, layer is also a constant node.
+		The rest of the hidden layer nodes can vary based on the settings, by default
+		a minimum of 1 node along side the constant node, and 100 along side the constant node
+	
+The last, rightmost layer, is the input layer, each node has a label, each of which are described here.
+	The first 5 nodes represent the 5 buttons a fighter can press.
+		If the value is negative the button is not held down,
+		and if the value is positive the button is held down.
+	L - the left button, held down or not help down
+	R - the right button, held down or not help down
+	J - the jump button, held down or not help down
+	A - the attack button, held down or not help down
+	B - the block button, held down or not help down
+	M - The value of this node is fed back into the M input node
+
+
+
+Modifying simulation settings/saving simulations:
+
+The file "NewSim.txt" holds the settings that will be used for a new simulation
+	Modify any value in this as you wish, though some numbers may cause unexpected and or buggy behavior.
+	To reset that file to its default state, select all the text and delete it, or delete the file itself.
+	After doing so the file will be reset to a valid default state.
+
+The file "Save.txt" holds the data for the simulation that will be loaded
+	I DO NOT recommend that you modify this file in any way. Any modifications could either corrupt the save file or alter
+	its data to make it not representative of the simulation it originally was.
+	If you want to save multiple simulations at once, rename the "Save.txt" file to something else or move it to another folder.
+	To use a simulation that you have saved in another file, move the file to the same folder as the .jar is in, and rename it to "Save.txt"
+	
+Here is a description of every field in "NewSim.txt", along with their default values. For true or false values, use 1 for true, and 0 for false
+
+	(When these variables talk about nodes, they mean the number of extra hidden nodes in a fighters brain)
+	Min_Nodes - he minimum number of nodes in a fighter's brain
+	Max_Nodes - The maximum number of nodes in a fighter's brain
+	Min_Start_Nodes - The minimum number of nodes in a fighter's brain when it is created
+	Max_Start_Nodes - The maximum number of nodes in a fighter's brain when it is created
+	Mutability_Change - The rate at which mutability mutates
+	Node_Mutability_Change - The rate at which node mutability mutates
+	Min_Mutability - The minimum value that regular mutability can take
+	Max_Mutability - The maximum value that regular mutability can take
+	Min_Node_Mutability - The minimum value that node mutability can take
+	Max_Node_Mutability - The maximum value that node mutability can take
+	
+	Default values:
+	Default Min_Nodes = 1
+	Default Max_Nodes = 100
+	Default Min_Start_Nodes = 1
+	Default Max_Start_Nodes = 30
+	Default Mutability_Change = .5
+	Default Node_Mutability_Change = 5
+	Default Min_Mutability = .08
+	Default Max_Mutability = 2
+	Default Min_Node_Mutability = .05
+	Default Max_Node_Mutability = 4
+	
+	Fight_Arena_Width - The width of the fight arena
+	Fight_Arena_Height - The height of the fight arena
+	Fighter_Width - The width of a fighter
+	Fighter_Height - The height of a fighter
+	Fighter_Move_Speed - The base speed of a fighter, should only be positive
+	Fighter_Jump_Speed - The initial velocity when a fighter jumps upwards, should always be negative
+	Fighter_Gravity - The amount of gravity added to each fighter each tick
+	
+	Default values:
+	Default Fight_Arena_Width = 500
+	Default Fight_Arena_Height = 300
+	Default Fighter_Width = 50
+	Default Fighter_Height = 70
+	Default Fighter_Move_Speed = 3
+	Default Fighter_Jump_Speed = -6
+	Default Fighter_Gravity = .1
+	
+	Max_Fight_Time - The amount of ticks a fight will go on before it is over, number of seconds = MAX_FIGHT_TIME / 100
+	Use_Torus - True if the fighters should go to the other side of the arena if they move off screen, false if they should be bounded by the sides of the arena
+	
+	Default values:
+	Default Max_Fight_Time = 2000
+	Default Use_Torus = 1
+	
+	Test_Type - The way to test the fighters in each gen
+	AI_Type - The AI that you want to use for the hard coded AI (look at the bottom for descriptions of each AI)
+	Draw_Best_Lines - True if it should show the stats on the line graph of each generations best, worst, and median fitness
+	Draw_Average_Lines - True if it should show the stats on the line graph of each generations average best, worst, and median fitness
+	Poly_Graph - True if the species area graph should use polygons, false if it should use rectangles
+	Draw_Seperation_Lines - True if black lines should be drawn on the species area graph separating each segment
+	Always_Update_Graphs - True if, while looping, the graphs should update, false if they should not update until looping stops
+	Test_On_Average - True if the fighters should use their average fitness to sort and see if they should go onto the next generation. 
+					  False if the fitness from that generation test should be used
+	KILL_PARENT - True if a surviving fighter should give birth to 2 fighters and then die, false if they should live and give birth to one offspring
+	
+	Default values:
+	Default Test_Type = 0
+	Default AI_Type = 0
+	Default Draw_Best_Lines = 0
+	Default Draw_Average_Lines = 1
+	Default Poly_Graph = 1
+	Default Draw_Seperation_Lines = 0
+	Default Always_Update_Graphs = 0
+	Default Test_On_Average = 1
+	Default Kill_Parent = 0
+	
+	(for the 6 fields that describe fitness changes, depending on how close a fighter is to their opponent,
+		they will gain less fitness if they are far from their opponent, and more fitness if they are near)
+	Hit_Landed_Fitness - The fitness added when you hit your opponent while it was not blocking
+	Hit_Blocked_Fitness - The fitness added when you were hit while you were blocking
+	Attack_Blocked_Fitness - The fitness added when your attack was blocked
+	Attacked_Fitness - The fitness added when you get hit by an attack when you were not blocking
+	Block_Ended_Fitness - The fitness added when your block ended and you didn't block anything
+	Attack_Ended_Fitness - The fitness added when your attack ended and hit nothing
+	Normal_Attack_Time - The red color when a fighter has just attacked, and the attack is now on cool down
+	Long_Attack_Time - The red color when a fighter has just had its attack blocked, and is now on a longer than normal cool down
+	Begin_Attack_Time - The red color when a fighter has just begun to attack
+	Neutral_Attack_Time - The red color when a fighter is able to attack but has not yet began to 
+	Normal_Block_Time - The blue color when this fighter has just stopped blocking, and blocking is now on cool down
+	Long_Block_Time - The blue color when this fighter had an attack blocked, and blocking is now on a longer than normal cool down
+	Blocking_Time - The blue color when this fighter is blocking, and the time until the fighter is no longer able to block
+	Neutral_Block_Time - The blue color when this fighter is able to block, but has not yet blocked
+	
+	Default values:
+	Default Hit_Landed_Fitness = 9
+	Default Hit_Blocked_Fitness = 6
+	Default Attack_Blocked_Fitness = -2
+	Default Attacked_Fitness = -5
+	Default Block_Ended_Fitness = -1
+	Default Attack_Ended_Fitness = -1
+	Default Normal_Attack_Time = 100
+	Default Long_Attack_Time = 200
+	Default Begin_Attack_Time = 50
+	Default Neutral_Attack_Time = 51
+	Default Normal_Block_Time = 200
+	Default Long_Block_Time = 255
+	Default Blocking_Time = 175
+	Default Neutral_Block_Time = 176
+	
+	Seed - The value that determines the behavior of the random number generator. Given that all settings are the same,
+		   then using the same seed will always result in the same simulation
+	
+For Test_Type, use one of the following integer values. Here are their descriptions:
+	0 - Each gen, each fighter is tested with one random other fighter (TEST_ONE)
+	1 - Each gen, each fighter is tested against all fighters, very slow (TEST_ALL)
+	2 - Each gen, each fighter is tested against the hard coded AI (TEST_AI)
+	3 - Each gen, each fighter is tested against the best fighter form the previous 10 gens,
+		not including this gen. If there are not enough gens yet, the best from this gen are
+		used, skipping themselves (TEST_BEST)
+	4 - Each gen, a every fighter is tested against 4 random other fighters, and against
+	 	the smart and expert AI, the AI fitness scores are added twice (TEST_4_AND_BOTH_AI)
+	5 - Each gen, a every fighter is tested against all AIs, except for the
+		random moving one (TEST_ALL_AI)
+	6 - Each gen, every fighter is tested against 5 random fighters and themselves, the score from themselves is added 5 times (TEST_5_AND_SELF)
+
+When using Test_Type 2 (TEST_AI), use one of these integer values for AI_Type. Here are their descriptions:
+	0 - Use the smart AI to fight. This AI actively tries to block attacks, chase down the 
+		opponent, and attack when the opponent isn't blocking (SMART)
+	1 - This AI will never press any buttons for any reason (NONE)
+	2 - This AI holds down attack and left and nothing else (GO_LEFT)
+	3 - This AI randomly moves from left to right and randomly jumps, this random movement is
+	 	independent of the random seed, meaning the seed has very little effect
+	 	 on this type of simulation (MOVE_RANDOM)
+	4 - This AI holds down jump, right, and attack (JUMP_RIGHT)
+	5 - This AI will only attack when its opponent cannot block by the time the attack happens,
+		only blocks when it is about to be hit, and follows the enemy as best it can (EXPERT)
+	6 - This AI actively tries to run away from the opponent and block attacks (DEFENSE)
+	7 - This AI pseudo randomly moves left and right, holds down attack, and tries to block attacks (RANDOM_ATTACK)
